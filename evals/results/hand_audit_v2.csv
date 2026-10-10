@@ -1,0 +1,121 @@
+id,category,answerable,auto,human,note
+q001,limit,True,pass,correct,
+q002,limit,True,pass,partial,"gives $2,500 but opens with a stray ""No"" and says furs have no separate limit"
+q003,limit,True,pass,correct,
+q004,coverage,True,pass,correct,
+q005,limit,True,pass,correct,
+q006,definition,True,pass,correct,
+q007,definition,True,pass,correct,
+q008,exclusion,True,pass,partial,"right ""No"", cites the wrong ICC exclusion (5.d instead of 5.j garage/carport)"
+q009,condition,True,pass,correct,
+q010,exclusion,True,fail,partial,"right ""No"", wrong reason (does not cite self-propelled vehicle exclusion)"
+q011,exclusion,True,pass,correct,
+q012,exclusion,True,pass,correct,
+q013,exclusion,True,pass,correct,
+q014,exclusion,True,pass,partial,"right ""No"", reasons from basement limits instead of the currency exclusion IV.7"
+q015,exclusion,True,pass,correct,
+q016,exclusion,True,fail,wrong,false refusal (ALE exclusion not retrieved)
+q017,exclusion,True,pass,correct,
+q018,exclusion,True,fail,correct,states the conditional rule correctly (no flood cause -> not covered); regex wanted other wording
+q019,exclusion,True,pass,partial,"garbled: phrases the mold exclusion as ""only if"" coverage condition"
+q020,exclusion,True,pass,correct,
+q021,exclusion,True,fail,partial,"right ""No"", wrong reason (not the power-failure exclusion)"
+q022,exclusion,True,fail,partial,"right ""No"", wrong reason (not flood-in-progress exclusion)"
+q023,condition,True,pass,correct,
+q024,condition,True,pass,correct,
+q025,condition,True,pass,correct,
+q026,condition,True,pass,correct,
+q027,condition,True,pass,correct,
+q028,trick,True,pass,correct,
+q029,condition,True,fail,wrong,does not give the 60-day payment rule (evidence not retrieved)
+q030,condition,True,pass,correct,
+q031,condition,True,pass,correct,
+q032,condition,True,pass,correct,
+q033,loss_settlement,True,pass,correct,
+q034,definition,True,pass,correct,
+q035,loss_settlement,True,pass,correct,
+q036,loss_settlement,True,pass,correct,
+q037,loss_settlement,True,fail,wrong,"self-contradictory; misstates the $1,000/5% repair-first rule"
+q038,loss_settlement,True,pass,correct,
+q039,definition,True,fail,partial,"""two acres"" correct but omits the two-properties alternative"
+q040,definition,True,pass,correct,
+q041,definition,True,pass,correct,
+q042,coverage,True,pass,correct,
+q043,coverage,True,pass,correct,
+q044,coverage,True,pass,partial,"opens ""No"" then correctly describes the 10% tenant improvements coverage"
+q045,coverage,True,pass,correct,
+q046,exclusion,True,fail,partial,"right ""No"", cites the governmental-body sub-item instead of the deductible sub-item"
+q047,limit,True,pass,correct,
+q048,coverage,True,pass,correct,
+q049,condition,True,fail,wrong,inverts the assignment exception
+q050,condition,True,pass,correct,
+q051,condition,True,pass,correct,
+q052,condition,True,pass,correct,
+q053,condition,True,fail,wrong,misses that the policy becomes void (evidence not retrieved)
+q054,condition,True,pass,correct,
+q055,condition,True,pass,correct,
+q056,condition,True,pass,correct,
+q057,coverage,True,pass,correct,
+q058,exclusion,True,pass,correct,
+q059,coverage,True,pass,correct,
+q060,loss_settlement,True,pass,correct,
+q061,coverage,True,pass,correct,
+q062,coverage,True,fail,wrong,"says ""No"" then that they are covered"
+q063,exclusion,True,pass,partial,"right ""No"" with no supporting reason (""No - ..."")"
+q064,exclusion,True,pass,correct,
+q065,exclusion,True,fail,wrong,false refusal (economic-loss exclusion not retrieved)
+q066,condition,True,fail,partial,gives the proof-of-loss duty only
+q067,definition,True,pass,correct,
+q068,condition,True,pass,correct,
+q069,coverage,True,fail,wrong,wrong eligibility (evidence not retrieved)
+q070,limit,True,pass,correct,
+q071,loss_settlement,True,fail,wrong,describes RCBAP three-method settlement instead of GP ACV-only
+q072,definition,True,pass,correct,
+q073,coverage,True,pass,correct,
+q074,coverage,True,pass,correct,
+q075,coverage,True,pass,correct,
+q076,cross_form,True,pass,correct,
+q077,condition,True,pass,correct,
+q078,coverage,True,pass,correct,
+q079,coverage,True,fail,partial,"too vague (""insures the condominium building"")"
+q080,condition,True,pass,correct,
+q081,multi_clause,True,pass,correct,
+q082,coverage,True,pass,correct,
+q083,condition,True,pass,wrong,"says the Dwelling Form is primary; RCBAP VIII.B.2 makes the RCBAP primary (regex ""primary"" matched)"
+q084,loss_settlement,True,pass,wrong,"answers Yes; RCBAP pays RC only after repair (regex matched ""not more than"")"
+q085,definition,True,pass,correct,
+q086,loss_settlement,True,pass,correct,
+q087,condition,True,pass,correct,
+q088,claims_process,True,pass,correct,
+q089,claims_process,True,pass,correct,
+q090,claims_process,True,pass,correct,
+q091,claims_process,True,pass,correct,
+q092,claims_process,True,pass,correct,
+q093,multi_clause,True,pass,correct,
+q094,claims_process,True,fail,partial,"gives the 60-day ICC proof of loss, omits the six-year completion limit"
+q095,claims_process,True,pass,partial,says Yes but does not state that the mortgage company must sign
+q096,claims_process,True,pass,correct,
+q097,claims_process,True,fail,correct,lists dec-page items from the Claims Handbook; gold regex expected the Summary of Coverage list
+q098,claims_process,True,pass,correct,
+q099,claims_process,True,pass,correct,
+q100,trick,True,pass,correct,
+q101,trick,True,pass,correct,
+q102,trick,True,fail,partial,"says ""No"" but does not give the $2,500 figure"
+q103,trick,True,fail,wrong,"accepts the false premise that the Dwelling Form has $10,000 pollution cover"
+q104,trick,True,pass,correct,
+q105,trick,True,pass,correct,
+q106,unanswerable,False,pass,correct,
+q107,unanswerable,False,pass,correct,
+q108,unanswerable,False,fail,wrong,"applies the $250,000 per-unit condo cap to a GP non-residential building"
+q109,unanswerable,False,pass,correct,
+q110,unanswerable,False,fail,wrong,did not refuse; answer does not list deductible options
+q111,unanswerable,False,pass,correct,
+q112,unanswerable,False,pass,correct,
+q113,unanswerable,False,pass,correct,
+q114,unanswerable,False,pass,correct,
+q115,unanswerable,False,pass,correct,
+q116,unanswerable,False,pass,correct,
+q117,unanswerable,False,pass,correct,
+q118,unanswerable,False,pass,correct,
+q119,unanswerable,False,pass,correct,
+q120,unanswerable,False,pass,correct,

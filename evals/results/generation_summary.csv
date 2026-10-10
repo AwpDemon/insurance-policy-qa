@@ -1,0 +1,11 @@
+config,model,n,n_answerable,n_unanswerable,answer_accuracy,fact_recall,citation_precision,citation_recall,answers_with_unsupported_number,refusal_accuracy,false_refusal_rate,overall_accuracy,p50_latency_s,p95_latency_s,mean_prompt_tokens,mean_completion_tokens,parse_errors
+fixed/bm25/k5,qwen2.5:7b-instruct,120,105,15,0.4857,0.5079,0.5865,0.7206,0.0147,1.0,0.3524,0.55,2.926,6.386,1633.3,44.2,0
+clause/hybrid/k5,qwen2.5:7b-instruct,120,105,15,0.5619,0.5937,0.7013,0.8544,0.0127,0.9333,0.2476,0.6083,2.783,5.25,1252.7,44.9,0
+clause/bm25+rerank/k5,qwen2.5:7b-instruct,120,105,15,0.6095,0.6381,0.7775,0.9471,0.0118,0.8667,0.1905,0.6417,5.787,9.681,1229.1,46.9,0
+clause/hybrid+rerank/k5,qwen2.5:7b-instruct,120,105,15,0.5905,0.6317,0.7984,0.9444,0.0,0.8667,0.2286,0.625,5.986,10.46,1255.4,45.9,0
+clause/bm25+rerank/k3,qwen2.5:7b-instruct,120,105,15,0.5905,0.6143,0.8353,0.9167,0.0119,0.8667,0.2,0.625,5.639,8.513,829.2,44.7,0
+clause/bm25+rerank/k8,qwen2.5:7b-instruct,120,105,15,0.6286,0.6571,0.7222,0.9529,0.0118,0.8667,0.1905,0.6583,3.377,6.547,1813.5,47.4,0
+clause/bm25+rerank/k5/prompt-v2,qwen2.5:7b-instruct,120,105,15,0.8,0.8286,0.7426,0.8932,0.0388,0.8667,0.019,0.8083,3.441,6.503,1320.1,52.3,0
+fixed/bm25/k5/prompt-v2,qwen2.5:7b-instruct,120,105,15,0.6952,0.7222,0.5841,0.7198,0.0549,0.9333,0.1333,0.725,3.272,6.354,1724.3,51.9,0
+clause/bm25+rerank/k5/holdout_set,qwen2.5:7b-instruct,25,20,5,0.35,0.375,0.5926,0.6667,0.0,1.0,0.55,0.48,3.694,4.845,1261.0,35.4,0
+clause/bm25+rerank/k5/prompt-v2/holdout_set,qwen2.5:7b-instruct,25,20,5,0.65,0.675,0.463,0.5556,0.0,0.8,0.1,0.68,2.888,5.07,1352.0,46.4,0

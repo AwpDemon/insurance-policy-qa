@@ -1,0 +1,868 @@
+# Gold evaluation set for insurance-policy-qa.
+#
+# Every item was written by reading the cited clause(s) in the FEMA source PDFs (see
+# evals/GOLD_SET.md for the full authoring criteria). Fields:
+#   id            stable id
+#   category      definition | coverage | limit | exclusion | condition | loss_settlement |
+#                 claims_process | cross_form | multi_clause | trick | unanswerable
+#   question      what a policyholder / agent / adjuster might actually ask
+#   answerable    false => the corpus does not contain the answer; the system must refuse
+#   reference     a short reference answer written from the clause text
+#   key_facts     regexes (case-insensitive); a correct answer must match ALL of them
+#   supporting    list of evidence groups. Each group is a list of acceptable clause ids
+#                 (alternatives). Retrieval recall = share of groups hit by the top-k.
+#
+# Clause ids: DF = Dwelling Form F-122, GP = General Property Form F-123,
+# RC = RCBAP F-144, SC = Summary of Coverage P-2144, CH = Claims Handbook F-687.
+
+# ----------------------------------------------------------------------------- Dwelling Form
+- id: q001
+  category: limit
+  question: Under the NFIP Dwelling Form, how much coverage applies to a detached garage?
+  answerable: true
+  reference: Up to 10 percent of the dwelling's building limit of liability. Using it reduces the building limit, and a detached garage used or held for residential, business, or farming purposes is not covered.
+  key_facts: ['10 ?(percent|%)']
+  supporting: [[DF:III.A.3]]
+- id: q002
+  category: limit
+  question: What is the most the Dwelling Form will pay for jewelry and furs after a flood?
+  answerable: true
+  reference: The special limit is $2,500 for any one loss, covering jewelry, watches, precious stones, gold/silver/platinum articles, furs, artwork, collectibles, rare books, and business property combined.
+  key_facts: ['2,?500']
+  supporting: [[DF:III.B.8]]
+- id: q003
+  category: limit
+  question: How much will the Dwelling Form reimburse for sandbags, pumps, and plastic sheeting bought to protect my house from an approaching flood?
+  answerable: true
+  reference: Up to $1,000 under Loss Avoidance Measures (sandbags, supplies, and labor), but only if flood damage is imminent and either a general condition of flooding occurs nearby or an official issues an evacuation/civil order.
+  key_facts: ['1,?000']
+  supporting: [[DF:III.C.2]]
+- id: q004
+  category: coverage
+  question: If I move my furniture to a relative's house to protect it from a flood, how long does the Dwelling Form keep covering it there?
+  answerable: true
+  reference: For 45 consecutive days from the date you begin moving it, provided it is placed in a fully enclosed building or otherwise reasonably protected from the elements.
+  key_facts: ['45']
+  supporting: [[DF:III.C.2]]
+- id: q005
+  category: limit
+  question: What is the maximum Increased Cost of Compliance (Coverage D) payment under the Dwelling Form?
+  answerable: true
+  reference: Up to $30,000, in addition to the building coverage selected, but Coverage A plus Coverage D cannot exceed the maximum permitted under the Act.
+  key_facts: ['30,?000']
+  supporting: [[DF:III.D.2]]
+- id: q006
+  category: definition
+  question: What makes a building a "repetitive loss building" for Increased Cost of Compliance purposes?
+  answerable: true
+  reference: It is NFIP-insured, suffered flood damage on two occasions in a 10-year period ending on the date of the second loss, the repair cost on average equaled or exceeded 25 percent of market value at each loss, the NFIP paid the previous qualifying claim, and the community enforces a cumulative substantial-damage or repetitive-loss provision.
+  key_facts: ['(two|2) (occasions|times|losses)|twice', '10.year|ten.year', '25 ?(percent|%)']
+  supporting: [[DF:III.D.3, GP:III.D.3, RC:III.D.3]]
+- id: q007
+  category: definition
+  question: What repair-cost threshold makes a flood-damaged building eligible for ICC as substantially damaged?
+  answerable: true
+  reference: The cost to repair must equal or exceed 50 percent of the building's market value at the time of the flood, and the community must enforce a substantial damage provision.
+  key_facts: ['50 ?(percent|%)']
+  supporting: [[DF:III.D.3, GP:III.D.3, RC:III.D.3, CH:deep-dive]]
+- id: q008
+  category: exclusion
+  question: Will Increased Cost of Compliance coverage pay to elevate my detached garage?
+  answerable: true
+  reference: No. Coverage D excludes Increased Cost of Compliance for a garage or carport.
+  key_facts: ['\b(no|not|exclude[sd]?)\b', 'garage|carport']
+  supporting: [[DF:III.D.5]]
+- id: q009
+  category: condition
+  question: Under the Dwelling Form, how long do I have to complete the elevation or other mitigation work to collect Increased Cost of Compliance?
+  answerable: true
+  reference: The work must be done as soon as reasonably possible after the loss, not to exceed two years; ICC is not paid until the building is elevated, floodproofed, demolished, or relocated.
+  key_facts: ['(two|2) years']
+  supporting: [[DF:III.D.5]]
+- id: q010
+  category: exclusion
+  question: My car was flooded while parked in my driveway. Will my Dwelling Form flood policy pay for it?
+  answerable: true
+  reference: No. Self-propelled vehicles and their parts are not insured. The only exception is unlicensed vehicles/machines used mainly to service the location or designed to assist handicapped persons, while inside a building at the described location.
+  key_facts: ['\b(no|not)\b', 'self-propelled|vehicle']
+  supporting: [[DF:IV.5]]
+- id: q011
+  category: exclusion
+  question: Does the Dwelling Form cover flood damage to my lawn, trees, and shrubs?
+  answerable: true
+  reference: No. Land, land values, lawns, trees, shrubs, plants, growing crops, and animals are property not insured.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.6]]
+- id: q012
+  category: exclusion
+  question: Is my in-ground swimming pool and its pump covered by the Dwelling Form?
+  answerable: true
+  reference: No. Swimming pools, and hot tubs/spas that are not bathroom fixtures, and their equipment (heaters, filters, pumps, pipes) are not insured wherever located.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.14]]
+- id: q013
+  category: exclusion
+  question: Are fences, retaining walls, and boat docks covered under the Dwelling Form?
+  answerable: true
+  reference: No. Fences, retaining walls, seawalls, bulkheads, wharves, piers, bridges, and docks are property not insured.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.12]]
+- id: q014
+  category: exclusion
+  question: I kept $3,000 in cash in my basement and it was destroyed in a flood. Is it covered?
+  answerable: true
+  reference: No. Currency, money, coins, bullion, securities, deeds, and other valuable papers are property not insured.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.7]]
+- id: q015
+  category: exclusion
+  question: Does the Dwelling Form cover my septic system and well?
+  answerable: true
+  reference: No. Underground structures and equipment, including wells, septic tanks, and septic systems, are not insured.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.8]]
+- id: q016
+  category: exclusion
+  question: Will NFIP flood insurance pay for a hotel while my flooded home is being repaired?
+  answerable: true
+  reference: No. The policy does not pay additional living expenses incurred while the insured building is being repaired or is unable to be occupied.
+  key_facts: ['\b(no|not)\b', 'living expense|ALE']
+  supporting: [[DF:V.A, DF:V.A.5, CH:unable-to-stay-in-your-home, SC:examples-of-uncovered-or-excluded-losses]]
+- id: q017
+  category: exclusion
+  question: Is damage from an earthquake or sinkhole covered under the Dwelling Form if a flood caused it?
+  answerable: true
+  reference: No. Loss caused directly by earth movement (earthquake, landslide, land subsidence, sinkholes, gradual erosion) is excluded even if the earth movement is caused by flood. Mudflow and erosion-caused collapse along a lake shore are covered because they fall within the flood definition.
+  key_facts: ['\b(no|not)\b', 'earth movement|even if']
+  supporting: [[DF:V.C]]
+- id: q018
+  category: exclusion
+  question: Sewage backed up through my basement floor drain during a heavy storm. Is that covered by the Dwelling Form?
+  answerable: true
+  reference: Only if there is a flood in the area and the flood is the proximate cause of the sewer or drain backup; otherwise backup through sewers or drains is excluded.
+  key_facts: ['flood in the area|proximate cause|caused by (a )?flood']
+  supporting: [[DF:V.D.5]]
+- id: q019
+  category: exclusion
+  question: Does the Dwelling Form cover mold damage after a flood?
+  answerable: true
+  reference: Mold damage that results primarily from a condition substantially confined to the dwelling or within your control is excluded, including failure to inspect and maintain the property after a flood recedes.
+  key_facts: ['inspect|maintain|within your control|confined']
+  supporting: [[DF:V.D.4]]
+- id: q020
+  category: exclusion
+  question: Wind blew rain through my broken windows during a hurricane. Does the NFIP policy cover that water damage?
+  answerable: true
+  reference: No. Rain, snow, sleet, hail, or water spray and wind/windstorm are excluded causes; wind-driven rain is not a flood.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:V.D.3, DF:V.D.8, CH:applying-the-definition]]
+- id: q021
+  category: exclusion
+  question: The power went out for a week during a flood and all my food spoiled, but no water reached my house. Is the spoiled food covered?
+  answerable: true
+  reference: No. Loss from power, heating, or cooling failure is excluded unless the failure results from direct physical loss by flood to power, heating, or cooling equipment on the described location.
+  key_facts: ['\b(no|not|unless)\b', 'power']
+  supporting: [[DF:V.D.7]]
+- id: q022
+  category: exclusion
+  question: Can I buy a flood policy while the river is already overflowing and get paid for that flood?
+  answerable: true
+  reference: No. The policy does not pay for a loss caused by a flood that is a continuation of a flood that existed on or before the day you submitted the application and full amount due (or, for policies effective at a loan closing, before coverage became effective).
+  key_facts: ['continuation|already in progress|in progress|existed']
+  supporting: [[DF:V.B]]
+- id: q023
+  category: condition
+  question: If a flood damages both my house and my belongings, how many deductibles apply?
+  answerable: true
+  reference: Separate deductibles apply to the building and to personal property in each loss.
+  key_facts: ['separate|two|both']
+  supporting: [[DF:VI.B]]
+- id: q024
+  category: condition
+  question: What deductible applies if my house is under construction and only has one exterior wall and no roof when the flood hits?
+  answerable: true
+  reference: When a building under construction lacks at least two rigid exterior walls and a fully secured roof, the deductible is two times the deductible that would otherwise apply.
+  key_facts: ['two times|twice|double|2x|2 times']
+  supporting: [[DF:VI.A]]
+- id: q025
+  category: condition
+  question: Does the deductible apply to the loss avoidance (sandbag) coverage or to ICC?
+  answerable: true
+  reference: No. The deductible does not apply to Loss Avoidance Measures, Condominium Loss Assessments, or Increased Cost of Compliance.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:VI.C]]
+- id: q026
+  category: condition
+  question: How long after a flood loss do I have to send the insurer a signed proof of loss under the Dwelling Form?
+  answerable: true
+  reference: Within 60 days after the loss.
+  key_facts: ['60']
+  supporting: [[DF:VII.G.4, DF:VII.G.7]]
+- id: q027
+  category: condition
+  question: What information has to be in the proof of loss?
+  answerable: true
+  reference: The date and time of loss, how the loss happened, your interest and others' interest in the property, other insurance, changes in title or occupancy, specifications and repair estimates, mortgagees/lienholders, who occupied the building and why, and the inventory of damaged personal property.
+  key_facts: ['date', 'other insurance|mortgagee|repair estimate|inventory']
+  supporting: [[DF:VII.G.4, GP:VII.G.4, RC:VIII.G.4]]
+- id: q028
+  category: trick
+  question: The flood adjuster told me on site that my claim is approved. Is that binding on the insurer?
+  answerable: true
+  reference: No. The insurer has not authorized the adjuster to approve or disapprove claims or to tell you whether the claim will be approved.
+  key_facts: ['\b(no|not)\b', 'authori[sz]']
+  supporting: [[DF:VII.G.8, GP:VII.G.8, RC:VIII.G.8]]
+- id: q029
+  category: condition
+  question: When does the insurer have to pay a flood claim under the Dwelling Form?
+  answerable: true
+  reference: Loss is payable 60 days after the insurer receives the proof of loss (or within 90 days after the adjuster's report signed and sworn by you is filed) and once there is an agreement, a final judgment, or an appraisal award.
+  key_facts: ['60 days']
+  supporting: [[DF:VII.J.1]]
+- id: q030
+  category: condition
+  question: What is the deadline to sue my NFIP insurer after a claim denial, and in which court?
+  answerable: true
+  reference: Within one year after the date of the written denial of all or part of the claim, in the United States District Court for the district where the insured property was located.
+  key_facts: ['one year|1 year|one-year', 'district court']
+  supporting: [[DF:VII.O, GP:VII.O, RC:VIII.O, CH:file-a-lawsuit]]
+- id: q031
+  category: condition
+  question: How does appraisal work if I disagree with the insurer on the value of my loss?
+  answerable: true
+  reference: Either party may demand appraisal. Each picks a competent, impartial appraiser within 20 days of a written request; the appraisers pick an umpire (a judge can choose if they cannot agree within 15 days). Agreement of any two sets the loss. Each side pays its own appraiser and splits umpire and other appraisal expenses equally.
+  key_facts: ['20 days', 'umpire']
+  supporting: [[DF:VII.M, GP:VII.M, RC:VIII.M]]
+- id: q032
+  category: condition
+  question: Can I abandon my flood-damaged house to the insurance company and walk away?
+  answerable: true
+  reference: No. You may not abandon damaged or undamaged insured property to the insurer.
+  key_facts: ['\b(no|not|cannot|may not)\b']
+  supporting: [[DF:VII.K, GP:VII.K, RC:VIII.K]]
+- id: q033
+  category: loss_settlement
+  question: When is a single-family home settled at replacement cost under the Dwelling Form?
+  answerable: true
+  reference: When it is your principal residence and, at the time of loss, the building coverage is at least 80 percent of its full replacement cost immediately before the loss or is the maximum amount available under the NFIP.
+  key_facts: ['principal residence', '80 ?(percent|%)']
+  supporting: [[DF:VII.R.1, DF:VII.R.2]]
+- id: q034
+  category: definition
+  question: How does the Dwelling Form define "principal residence"?
+  answerable: true
+  reference: The dwelling in which you or your spouse have lived for at least 80 percent of the 365 days immediately preceding the loss, or of the period of ownership if you owned it for less than 365 days.
+  key_facts: ['80 ?(percent|%)', '365']
+  supporting: [[DF:II.C.25]]
+- id: q035
+  category: loss_settlement
+  question: How are claims for personal property (contents) valued?
+  answerable: true
+  reference: Personal property is settled at actual cash value (replacement cost minus physical depreciation).
+  key_facts: ['actual cash value|ACV']
+  supporting: [[DF:VII.R.4, SC:how-flood-damage-is-paid, GP:VII.R, RC:VIII.R.4]]
+- id: q036
+  category: loss_settlement
+  question: How is a manufactured home that is my principal residence settled if it is totally destroyed?
+  answerable: true
+  reference: Under Special Loss Settlement (for homes at least 16 feet wide and 600 square feet), the insurer pays the least of (1) the lesser of replacement cost or 1.5 times actual cash value, or (2) the building limit of liability.
+  key_facts: ['1\.5', 'actual cash value|ACV']
+  supporting: [[DF:VII.R.3]]
+- id: q037
+  category: loss_settlement
+  question: Do I have to finish repairs before the insurer pays replacement cost on my house?
+  answerable: true
+  reference: If the full cost of repair or replacement is more than $1,000 or more than 5 percent of the insurance on the dwelling, the insurer is not liable for the replacement-cost amount until actual repair or replacement is completed.
+  key_facts: ['1,?000', '5 ?(percent|%)']
+  supporting: [[DF:VII.R.2]]
+- id: q038
+  category: loss_settlement
+  question: If I first take an actual cash value payment, how long do I have to tell the insurer I intend to claim the additional replacement cost?
+  answerable: true
+  reference: Within 180 days after the date of loss.
+  key_facts: ['180']
+  supporting: [[DF:VII.R.2]]
+- id: q039
+  category: definition
+  question: How much land has to be inundated for an event to count as a "flood" under the SFIP?
+  answerable: true
+  reference: A general and temporary condition of partial or complete inundation of two or more acres of normally dry land, or of two or more properties (one of which is yours), from overflow of inland or tidal waters, unusual and rapid accumulation or runoff of surface waters, or mudflow; or lake-shore collapse from erosion.
+  key_facts: ['(two|2) or more acres', '(two|2) or more properties']
+  supporting: [[DF:II.B, GP:II.B, RC:II.B, SC:how-does-the-nfip-define-a-flood, CH:understand-your-coverage-definition-of-a-flood]]
+- id: q040
+  category: definition
+  question: Is a landslide considered a mudflow under the flood policy?
+  answerable: true
+  reference: No. Mudflow is a river of liquid and flowing mud carried by a current of water; landslide, slope failure, or a saturated soil mass moving down a slope are not mudflows.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:II.C.20, GP:II.C.19, RC:II.C.19, CH:applying-the-definition, SC:how-does-the-nfip-define-a-flood]]
+- id: q041
+  category: definition
+  question: What counts as a basement under the Dwelling Form?
+  answerable: true
+  reference: Any area of the building, including any sunken room or sunken portion of a room, with its floor below ground level on all sides.
+  key_facts: ['all sides']
+  supporting: [[DF:II.C.5, GP:II.C.5, RC:II.C.5]]
+- id: q042
+  category: coverage
+  question: Which contents in a basement are covered under Coverage B of the Dwelling Form?
+  answerable: true
+  reference: Only portable or window air conditioning units, clothes washers and dryers, and food freezers (other than walk-in) and the food in them, if installed in their functioning locations and connected to power if needed.
+  key_facts: ['washer', 'freezer']
+  supporting: [[DF:III.B.5]]
+- id: q043
+  category: coverage
+  question: Is drywall in my basement covered by building coverage?
+  answerable: true
+  reference: Yes, but limited to drywall for walls and ceilings in a basement and the labor to nail it, unfinished, unfloated, and not taped, to the framing.
+  key_facts: ['unfinished|not taped|unfloated']
+  supporting: [[DF:III.A.8]]
+- id: q044
+  category: coverage
+  question: I rent my apartment. Does my Dwelling Form contents policy cover improvements I paid for, like new built-in shelving?
+  answerable: true
+  reference: Yes. A tenant's Coverage B covers improvements made or acquired solely at the tenant's expense, up to 10 percent of the personal property limit, which reduces the personal property limit.
+  key_facts: ['10 ?(percent|%)']
+  supporting: [[DF:III.B.6]]
+- id: q045
+  category: coverage
+  question: As a condo unit owner with Dwelling Form contents coverage, can I use it for my unit's interior walls and floors?
+  answerable: true
+  reference: Yes, if not otherwise insured under the association's flood policy, for not more than 10 percent of the personal property limit; it reduces that limit.
+  key_facts: ['10 ?(percent|%)']
+  supporting: [[DF:III.B.7]]
+- id: q046
+  category: exclusion
+  question: My condo association charged me a special assessment to cover its flood policy deductible. Will my Dwelling Form pay it?
+  answerable: true
+  reference: No. Condominium loss assessment coverage does not pay any assessment that results from a deductible under the insurance purchased by the condominium association insuring common elements.
+  key_facts: ['\b(no|not)\b', 'deductible']
+  supporting: [[DF:III.C.3]]
+- id: q047
+  category: limit
+  question: What is the most that can be paid in combined benefits for a single condo unit insured under both a Dwelling Form policy and the association's RCBAP?
+  answerable: true
+  reference: $250,000 in combined benefits; damage is paid only once.
+  key_facts: ['250,?000']
+  supporting: [[DF:I.G, DF:VII.B.3, RC:I.G]]
+- id: q048
+  category: coverage
+  question: If I remove flood debris myself, how is my labor valued under the debris removal coverage?
+  answerable: true
+  reference: At the Federal minimum wage.
+  key_facts: ['minimum wage']
+  supporting: [[DF:III.C.1, GP:III.C.1, RC:III.C.1]]
+- id: q049
+  category: condition
+  question: Can I transfer my Dwelling Form flood policy to the buyer when I sell my house?
+  answerable: true
+  reference: Yes, you may assign the policy in writing when you transfer title, except when the policy insures only personal property or a building under construction.
+  key_facts: ['writing|written', 'personal property|under construction']
+  supporting: [[DF:VII.C]]
+- id: q050
+  category: condition
+  question: If the insurer cancels my policy, how long does coverage continue for my mortgage lender?
+  answerable: true
+  reference: The policy continues in effect for the benefit of the mortgagee only for 30 days after the insurer notifies the mortgagee of the cancellation or non-renewal.
+  key_facts: ['30 days']
+  supporting: [[DF:VII.N.6, GP:VII.N, RC:VIII.N.6]]
+- id: q051
+  category: condition
+  question: How long do I have to pay the renewal premium on my flood policy?
+  answerable: true
+  reference: The insurer must receive the renewal premium within 30 days of the expiration date.
+  key_facts: ['30 days']
+  supporting: [[DF:VII.E.2, GP:VII.E, RC:VIII.E.2]]
+- id: q052
+  category: condition
+  question: The insurer discovered my premium was too low for the coverage I asked for. How long do I have to pay the difference to keep the full coverage?
+  answerable: true
+  reference: If you (or the mortgagee) pay the additional premium within 30 days of the bill, the policy is reformed to the originally requested coverage back to the start of the term; otherwise claims are settled on the reduced coverage.
+  key_facts: ['30 days']
+  supporting: [[DF:VII.D.3]]
+- id: q053
+  category: condition
+  question: What happens to my flood policy if I lied on the application?
+  answerable: true
+  reference: The policy is void as of the date of the act if you, another insured, or your agent concealed or misrepresented a material fact, engaged in fraud, or made false statements; it cannot be renewed or replaced, and federal fines, civil penalties, and imprisonment may apply.
+  key_facts: ['void']
+  supporting: [[DF:VIII.A, DF:VIII.A.1, DF:VIII.A.2, DF:VIII.A.3, DF:VIII.A.4]]
+- id: q054
+  category: condition
+  question: How long must a building be continuously flooded by rising lake waters before the insurer can pay without waiting for further damage?
+  answerable: true
+  reference: 90 days or more of continuous flooding, if it is reasonably certain the flooding will cause a loss at or above policy limits plus deductible; you must sign a release (no further claims, no renewal, no new NFIP insurance at that location, no premium refund).
+  key_facts: ['90']
+  supporting: [[DF:VII.Q.1, GP:VII.Q, RC:VIII.Q.1]]
+- id: q055
+  category: condition
+  question: If FEMA broadens the flood policy mid-term without charging more, do I get the broader coverage?
+  answerable: true
+  reference: Yes. Under the liberalization clause the change applies automatically as of its implementation date, if that date falls within 60 days before or during the policy term.
+  key_facts: ['60 days']
+  supporting: [[DF:IX, GP:IX, RC:X]]
+- id: q056
+  category: condition
+  question: What law governs disputes over an NFIP Standard Flood Insurance Policy?
+  answerable: true
+  reference: Exclusively the flood insurance regulations issued by FEMA, the National Flood Insurance Act of 1968 as amended, and Federal common law.
+  key_facts: ['federal common law']
+  supporting: [[DF:X, GP:X, RC:XI]]
+- id: q057
+  category: coverage
+  question: I own two houses on the same lot. Does one Dwelling Form policy cover both?
+  answerable: true
+  reference: No. The policy insures only one building; if you own more than one, coverage applies only to the building described in the application.
+  key_facts: ['one building|single building|only one']
+  supporting: [[DF:I.E]]
+- id: q058
+  category: exclusion
+  question: Will the Dwelling Form pay for testing my flooded home for pollutants?
+  answerable: true
+  reference: No, not unless the testing or monitoring is required by law or ordinance.
+  key_facts: ['law|ordinance']
+  supporting: [[DF:V.F, CH:repairing-rebuilding-flood-damage-remediation-structural-dry]]
+- id: q059
+  category: coverage
+  question: Patio furniture floated out of my open carport during a flood. Is it covered?
+  answerable: true
+  reference: No. Personal property in a building that is not fully enclosed must be secured against flotation; if it floats out it is conclusively presumed not reasonably secured and is not covered. (Personal property not inside a building is also not insured.)
+  key_facts: ['\b(no|not)\b', 'secured|float|enclosed|inside a building']
+  supporting: [[DF:III.B.3, DF:IV.1]]
+- id: q060
+  category: loss_settlement
+  question: How does the Dwelling Form value a damaged antique?
+  answerable: true
+  reference: The insurer pays only the functional value of antiques.
+  key_facts: ['functional value']
+  supporting: [[DF:III.B.9]]
+- id: q061
+  category: coverage
+  question: Is a built-in dishwasher covered under building or contents coverage in the Dwelling Form?
+  answerable: true
+  reference: Building coverage (Coverage A) only; built-in dishwashers are on the list of items insured under Coverage A only. Portable dishwashers fall under Coverage B.
+  key_facts: ['coverage a|building']
+  supporting: [[DF:III.A.7]]
+- id: q062
+  category: coverage
+  question: My washer and dryer are in the basement. Are they covered under the Dwelling Form?
+  answerable: true
+  reference: Yes, under Coverage B (personal property), clothes washers and dryers in a basement are covered if installed in their functioning location and connected to power.
+  key_facts: ['coverage b|personal property|contents']
+  supporting: [[DF:III.B.5, DF:III.B.4]]
+- id: q063
+  category: exclusion
+  question: A pipe froze and burst in my house during a winter storm. Will my NFIP Dwelling Form policy cover the water damage?
+  answerable: true
+  reference: No. Freezing or thawing is an excluded cause, and water damage from failure or breakage of water lines within your control is excluded; a burst pipe is not a flood.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:V.D.2, DF:V.D.4]]
+- id: q064
+  category: exclusion
+  question: Can I insure my boathouse under the Dwelling Form?
+  answerable: true
+  reference: No. Open structures, including a building used as a boathouse or any structure into which boats are floated, are not insured.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.3]]
+- id: q065
+  category: exclusion
+  question: Does the Dwelling Form cover my lost income while I can't use my home office after a flood?
+  answerable: true
+  reference: No. The policy pays only direct physical loss; it does not pay loss of revenue or profits, loss of use, business interruption, or other economic loss.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:V.A, DF:V.A.1, DF:V.A.4]]
+- id: q066
+  category: condition
+  question: What are my duties right after a flood loss under the Dwelling Form?
+  answerable: true
+  reference: Give prompt written notice; separate damaged and undamaged property; prepare an inventory of damaged property with quantity, description, actual cash value, and amount of loss with bills and receipts; send a signed, sworn proof of loss within 60 days; and cooperate with the adjuster.
+  key_facts: ['notice', 'separate', 'inventory']
+  supporting: [[DF:VII.G.1, DF:VII.G, GP:VII.G.1, RC:VIII.G.1], [DF:VII.G.3, DF:VII.G.2, GP:VII.G.3, RC:VIII.G.3]]
+- id: q067
+  category: definition
+  question: Is a travel trailer considered a building under the SFIP?
+  answerable: true
+  reference: Only a travel trailer without wheels, built on a chassis and affixed to a permanent foundation, that is regulated under the community's floodplain management and building ordinances. Recreational vehicles otherwise are not buildings.
+  key_facts: ['without wheels|permanent foundation']
+  supporting: [[DF:II.C.6, GP:II.C.6, RC:II.C.6]]
+- id: q068
+  category: condition
+  question: Does a manufactured home in a special flood hazard area have to be anchored to be covered?
+  answerable: true
+  reference: Yes. At the time of loss it must be anchored by over-the-top or frame ties to ground anchors, per the manufacturer's specifications, or per the community's floodplain requirements (unless continuously NFIP-insured at the location since September 30, 1982).
+  key_facts: ['anchor', 'tie|manufacturer']
+  supporting: [[DF:III.A.6, GP:III.A.7, RC:III.A.7]]
+
+# ----------------------------------------------------------------------------- General Property Form
+- id: q069
+  category: coverage
+  question: What kinds of buildings is the NFIP General Property Form meant to insure?
+  answerable: true
+  reference: Multifamily residential buildings designed for five or more families that are not condominiums, non-residential buildings, and their contents (residential condominium buildings in Regular Program communities are excluded, except unit personal property).
+  key_facts: ['(5|five) or more', 'non-?residential']
+  supporting: [[GP:I.A.1]]
+- id: q070
+  category: limit
+  question: Under the General Property Form, what is the limit for pollution damage caused by a flood?
+  answerable: true
+  reference: The insurer pays up to $10,000 for damage caused by pollutants to insured property when the pollutant discharge is caused by flood; it does not increase the Coverage A or B limits.
+  key_facts: ['10,?000']
+  supporting: [[GP:III.C.3]]
+- id: q071
+  category: loss_settlement
+  question: How are losses settled under the General Property Form?
+  answerable: true
+  reference: The insurer pays the least of the applicable amount of insurance, the actual cash value, or the cost to repair or replace with like kind and quality within a reasonable time, after the deductible.
+  key_facts: ['actual cash value|ACV', 'least']
+  supporting: [[GP:VII.R, GP:VII.R.1, GP:VII.R.2, GP:VII.R.3]]
+- id: q072
+  category: definition
+  question: What does "stock" mean in the General Property Form?
+  answerable: true
+  reference: Merchandise held in storage or for sale, raw materials, and in-process or finished goods, including supplies used in their packing or shipping.
+  key_facts: ['merchandise', 'raw materials|finished goods']
+  supporting: [[GP:II.C.28]]
+- id: q073
+  category: coverage
+  question: Can a residential condominium building in a Regular Program community be insured under the General Property Form?
+  answerable: true
+  reference: No. There is no coverage for a residential condominium building in a Regular Program community, except personal property coverage for a unit.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[GP:I.A.2, GP:IV.17]]
+- id: q074
+  category: coverage
+  question: Can one General Property Form policy cover both household personal property and business contents in the same building?
+  answerable: true
+  reference: No. Personal property coverage is either household personal property or other-than-household personal property, but not both.
+  key_facts: ['not both|either']
+  supporting: [[GP:III.B.3]]
+- id: q075
+  category: coverage
+  question: Under the General Property Form, how much of the contents limit can a tenant apply to improvements?
+  answerable: true
+  reference: Up to 10 percent of the Coverage B limit for improvements made part of the building that the tenant acquired or made at their expense; it does not increase the amount of insurance.
+  key_facts: ['10 ?(percent|%)']
+  supporting: [[GP:III.B.8]]
+- id: q076
+  category: cross_form
+  question: Is business personal property subject to the $2,500 special limit under the General Property Form, the way it is under the Dwelling Form?
+  answerable: true
+  reference: No. The General Property Form's $2,500 special limit covers artwork/collectibles, rare books, jewelry and precious metals, and furs; business property is not in that list. Only the Dwelling Form lists personal property used in any business under the $2,500 limit.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[GP:III.B.6], [DF:III.B.8]]
+- id: q077
+  category: condition
+  question: Under the General Property Form, if a condo association's policy and a unit owner's NFIP policy cover the same loss, which pays first?
+  answerable: true
+  reference: The General Property Form policy issued to the condominium association is primary.
+  key_facts: ['primary']
+  supporting: [[GP:VII.B.2]]
+- id: q078
+  category: coverage
+  question: Which items does the General Property Form list as building property (Coverage A only), for example for fire protection?
+  answerable: true
+  reference: Fixtures, machinery, and equipment such as awnings, blinds, permanently installed carpet over unfinished flooring, central AC, elevator equipment, fire extinguishing apparatus, fire sprinkler systems, walk-in freezers, furnaces, light fixtures, outdoor antennas, permanent cabinets and paneling, pumps, ventilating equipment, wall mirrors, and installed appliances within units.
+  key_facts: ['fire extinguishing|fire sprinkler']
+  supporting: [[GP:III.A.4]]
+
+# ----------------------------------------------------------------------------- RCBAP
+- id: q079
+  category: coverage
+  question: What does the Residential Condominium Building Association Policy insure?
+  answerable: true
+  reference: Only a residential condominium building in a Regular Program community, including all units in the building and the improvements within the units; if the community reverts to the Emergency Program and remains so at renewal, the policy cannot be renewed.
+  key_facts: ['residential condominium building', 'regular program']
+  supporting: [[RC:I.A, RC:III.A.1]]
+- id: q080
+  category: condition
+  question: What is the RCBAP coinsurance requirement?
+  answerable: true
+  reference: To avoid a penalty, building insurance must be at least 80 percent of replacement cost or the maximum available under the NFIP, whichever is less. It applies only to building coverage.
+  key_facts: ['80 ?(percent|%)']
+  supporting: [[RC:VII.B, RC:VII.B.1, RC:VII.B.2]]
+- id: q081
+  category: multi_clause
+  question: Under the RCBAP, a building with $250,000 replacement value is insured for $180,000 and has a $150,000 loss with a $500 deductible. What does the policy pay?
+  answerable: true
+  reference: $134,500. Required insurance is $200,000 (80% of $250,000); 180,000/200,000 = 0.90; $150,000 x 0.90 = $135,000; minus the $500 deductible = $134,500.
+  key_facts: ['134,?500']
+  supporting: [[RC:VII.C.3, RC:VII.C]]
+- id: q082
+  category: coverage
+  question: Whose personal property does the RCBAP cover?
+  answerable: true
+  reference: Personal property inside the fully enclosed insured building that is owned by the unit owners in common (undivided ownership interest), or owned solely by the association and used exclusively for its business affairs.
+  key_facts: ['in common|common', 'association']
+  supporting: [[RC:III.B.1]]
+- id: q083
+  category: condition
+  question: If a condo unit owner has their own NFIP policy and the association has an RCBAP covering the same loss, which is primary?
+  answerable: true
+  reference: The RCBAP is primary.
+  key_facts: ['primary']
+  supporting: [[RC:VIII.B.2]]
+- id: q084
+  category: loss_settlement
+  question: Under the RCBAP, does the insurer pay replacement cost before the building is actually repaired?
+  answerable: true
+  reference: No. The insurer is not liable on a replacement cost basis unless and until actual repair or replacement of the damaged building is completed.
+  key_facts: ['\b(no|not|until)\b', 'repair']
+  supporting: [[RC:VIII.R.2]]
+- id: q085
+  category: definition
+  question: What percentage of floor area must be residential for a building to be a residential condominium building?
+  answerable: true
+  reference: At least 75 percent of the floor area must be residential.
+  key_facts: ['75']
+  supporting: [[RC:II.C.26, GP:II.C.26]]
+- id: q086
+  category: loss_settlement
+  question: When calculating full replacement cost for the RCBAP coinsurance test, whose improvements are included?
+  answerable: true
+  reference: Only the replacement cost value of improvements installed by the condominium association; building property not insured under the policy is excluded.
+  key_facts: ['association']
+  supporting: [[RC:VII.D, RC:VII.D.3]]
+- id: q087
+  category: condition
+  question: Does the RCBAP coinsurance penalty apply to contents?
+  answerable: true
+  reference: No. The coinsurance section applies only to coverage on the building.
+  key_facts: ['\b(no|not|only)\b', 'building']
+  supporting: [[RC:VII.A]]
+
+# ----------------------------------------------------------------------------- Consumer guides
+- id: q088
+  category: claims_process
+  question: How soon after I report a flood loss will an adjuster usually contact me?
+  answerable: true
+  reference: Generally within one to two days of receiving the notice of loss, though it can take longer depending on local conditions and severity.
+  key_facts: ['(one|1).{0,4}(to|-).{0,4}(two|2)']
+  supporting: [[CH:handling-your-claim]]
+- id: q089
+  category: claims_process
+  question: How long do I have to file an appeal with FEMA after my flood insurer denies part of my claim?
+  answerable: true
+  reference: Within 60 days of the date on the insurer's denial letter.
+  key_facts: ['60']
+  supporting: [[CH:submitting-your-appeal]]
+- id: q090
+  category: claims_process
+  question: Can I use both a FEMA appeal and the policy's appraisal provision for the same claim?
+  answerable: true
+  reference: No. Policyholders may use only one pre-litigation remedy; if you appeal you cannot seek appraisal, and if you seek appraisal you cannot appeal.
+  key_facts: ['\b(no|not|cannot|only one)\b']
+  supporting: [[CH:limitations-on-appeals, CH:invoke-the-appraisal-provision]]
+- id: q091
+  category: claims_process
+  question: How often should a drying technician check my building during structural drying?
+  answerable: true
+  reference: At least every 24 hours, to record moisture and humidity levels; buildings can typically be dried within 72 hours, and FEMA requires a properly completed drying log.
+  key_facts: ['24 hours']
+  supporting: [[CH:repairing-rebuilding-flood-damage-remediation-structural-dry]]
+- id: q092
+  category: claims_process
+  question: Will the flood policy pay for mold testing after the flood?
+  answerable: true
+  reference: No. Mold is generally excluded; the policy will not pay to test for or determine the type of mold or remediate it. Coverage is limited to removing non-salvageable flood-damaged material and applying an anti-microbial.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[CH:repairing-rebuilding-flood-damage-remediation-structural-dry]]
+- id: q093
+  category: multi_clause
+  question: According to the Claims Handbook, if I have $250,000 of Dwelling Form building coverage and receive a $240,000 claim payment, how much ICC coverage is still available?
+  answerable: true
+  reference: Only $10,000, because the combined payment cannot exceed the $250,000 NFIP maximum.
+  key_facts: ['10,?000|\$10k|10k']
+  supporting: [[CH:example-icc-scenarios]]
+- id: q094
+  category: claims_process
+  question: According to the Claims Handbook, what are the deadlines for an ICC claim?
+  answerable: true
+  reference: You must sign a separate ICC Proof of Loss within 60 days of the date of the community's substantial-damage letter, and you have six years from the date of the flood to complete the qualifying work.
+  key_facts: ['60 days', '(six|6) years']
+  supporting: [[CH:example-icc-scenarios]]
+- id: q095
+  category: claims_process
+  question: Does my mortgage company have to sign my flood claim checks?
+  answerable: true
+  reference: Yes. If you have a mortgage, the mortgage company must sign all building payment checks, including advance payments; personal property advances are issued directly to you.
+  key_facts: ['\byes\b|must sign|mortgage company']
+  supporting: [[CH:did-you-know, DF:VII.N.2]]
+- id: q096
+  category: claims_process
+  question: How long can it take for changes to my flood policy to take effect?
+  answerable: true
+  reference: It can take 30 days for changes to take effect, so do not wait until there is a threat of flood.
+  key_facts: ['30 days']
+  supporting: [[CH:talk-to-your-insurance-agent]]
+- id: q097
+  category: claims_process
+  question: What information is shown on my flood policy's declarations page?
+  answerable: true
+  reference: Items such as the policy number, policy term, billing details (premium, who pays, fees, discounts), insured property and community information, insurer and agent contact information, policyholder and lender/loss payee information, and coverage amounts and deductibles.
+  key_facts: ['policy number', 'deductible']
+  supporting: [[SC:your-declaration-page-provides-some-or-all-of-the-following-, CH:review-your-policy-declarations-page]]
+- id: q098
+  category: claims_process
+  question: What phone number can I call to reach the FEMA Mapping and Insurance eXchange (FMIX)?
+  answerable: true
+  reference: 877-336-2627.
+  key_facts: ['877.?336.?2627']
+  supporting: [[CH:additional-guidance-contact-information, SC:additional-guidance-and-contact-information]]
+- id: q099
+  category: claims_process
+  question: My sump pump backed up into the basement, but there was no flooding in the area. Is that covered?
+  answerable: true
+  reference: No. Sump pump backup is covered only when a flood in the area is the proximate cause; without flooding as the cause, the NFIP does not cover it.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[CH:applying-the-definition, DF:V.D.5]]
+
+# ----------------------------------------------------------------------------- Trick / false premise
+- id: q100
+  category: trick
+  question: Since the Standard Flood Insurance Policy is a valued policy, will I automatically get my full coverage limit if my house is a total loss?
+  answerable: true
+  reference: No, the premise is wrong. The SFIP states it is not a valued policy; the insurer pays based on the loss settlement terms, not an agreed value.
+  key_facts: ['not a valued policy|is not valued|not valued']
+  supporting: [[DF:II.C.30, RC:II.C.29, GP:II.C.30]]
+- id: q101
+  category: trick
+  question: What separate deductible applies to an Increased Cost of Compliance claim under the Dwelling Form?
+  answerable: true
+  reference: None. The insurer does not charge a separate deductible for a claim under Coverage D, and the policy deductible does not apply to ICC.
+  key_facts: ['\b(no|not|none|does not)\b']
+  supporting: [[DF:III.D.2, DF:VI.C]]
+- id: q102
+  category: trick
+  question: The Dwelling Form's special limit for jewelry is $5,000, correct?
+  answerable: true
+  reference: No. The special limit is $2,500 for any one loss.
+  key_facts: ['2,?500']
+  supporting: [[DF:III.B.8]]
+- id: q103
+  category: trick
+  question: How much does the Dwelling Form pay under its $10,000 pollution damage coverage?
+  answerable: true
+  reference: The Dwelling Form has no pollution damage coverage; the $10,000 pollution damage coverage is in the General Property Form. The Dwelling Form only pays pollutant testing/monitoring when required by law or ordinance.
+  key_facts: ['general property']
+  supporting: [[GP:III.C.3]]
+- id: q104
+  category: trick
+  question: I have two years after my claim is denied to sue my flood insurer, right?
+  answerable: true
+  reference: No. Suit must be started within one year after the date of the written denial.
+  key_facts: ['one year|1 year|one-year']
+  supporting: [[DF:VII.O, CH:file-a-lawsuit, CH:appeals-resolution]]
+- id: q105
+  category: trick
+  question: I already filed a lawsuit against my flood insurer. Can I still file an appeal with FEMA?
+  answerable: true
+  reference: No. An appeal is a pre-litigation remedy; you cannot appeal after filing suit, and an appeal terminates automatically on the filing of a lawsuit.
+  key_facts: ['\b(no|not|cannot)\b']
+  supporting: [[CH:limitations-on-appeals, CH:file-a-lawsuit]]
+
+# ----------------------------------------------------------------------------- Unanswerable
+- id: q106
+  category: unanswerable
+  question: What is the annual premium for a $250,000 Dwelling Form policy on a house in flood zone AE?
+  answerable: false
+  reference: Not covered in the documents. The policy forms and guides contain no rates or premiums.
+  key_facts: []
+  supporting: []
+- id: q107
+  category: unanswerable
+  question: What is the maximum Coverage B (contents) limit I can buy under the Dwelling Form?
+  answerable: false
+  reference: Not covered in the documents. The policy text refers to the limit on the Declarations Page and the maximum under the Act but does not state a dollar maximum for contents.
+  key_facts: []
+  supporting: []
+- id: q108
+  category: unanswerable
+  question: What is the maximum building coverage available for a non-residential building under the General Property Form?
+  answerable: false
+  reference: Not covered in the documents. The form refers to the maximum permitted under the Act but does not state the dollar amount.
+  key_facts: []
+  supporting: []
+- id: q109
+  category: unanswerable
+  question: How many days does FEMA take to issue a decision on a flood claim appeal?
+  answerable: false
+  reference: Not covered in the documents. The Claims Handbook says the decision is issued in writing but gives no timeframe (it only gives the policyholder 14 days to respond to information requests).
+  key_facts: []
+  supporting: []
+- id: q110
+  category: unanswerable
+  question: What deductible amounts can I choose from on an NFIP Dwelling Form policy?
+  answerable: false
+  reference: Not covered in the documents. The deductible is shown on the Declarations Page; the documents do not list the available options.
+  key_facts: []
+  supporting: []
+- id: q111
+  category: unanswerable
+  question: What discount does a Community Rating System Class 5 community get on flood premiums?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: q112
+  category: unanswerable
+  question: Does my standard HO-3 homeowners policy cover flood damage?
+  answerable: false
+  reference: Not covered in the documents. The corpus contains NFIP flood policies and guides, not an HO-3 homeowners form.
+  key_facts: []
+  supporting: []
+- id: q113
+  category: unanswerable
+  question: What is the collision deductible on a personal auto policy?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: q114
+  category: unanswerable
+  question: Which Write Your Own insurance companies sell NFIP policies in Georgia?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: q115
+  category: unanswerable
+  question: How much commission does an insurance agent earn on an NFIP policy?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: q116
+  category: unanswerable
+  question: Under Risk Rating 2.0, by what maximum percentage can my flood premium increase each year?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: q117
+  category: unanswerable
+  question: Who is the current FEMA Administrator?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: q118
+  category: unanswerable
+  question: Does the NFIP Dwelling Form offer an endorsement for earthquake coverage that I can add for an extra premium?
+  answerable: false
+  reference: Not covered in the documents. The forms exclude earth movement and mention endorsements generally, but describe no earthquake endorsement.
+  key_facts: []
+  supporting: []
+- id: q119
+  category: unanswerable
+  question: How many NFIP policies are currently in force in Florida?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: q120
+  category: unanswerable
+  question: What is the waiting period, in days, before a brand-new NFIP policy purchased by a homeowner takes effect?
+  answerable: false
+  reference: Not covered in the documents. The policy mentions "the appropriate waiting period" for coverage increases but does not state its length, and the handbook's 30-day remark is about policy changes in general.
+  key_facts: []
+  supporting: []

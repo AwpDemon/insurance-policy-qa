@@ -1,0 +1,39 @@
+# Local deployment: the QA API + an Ollama server for embeddings and generation.
+#   docker compose -f deploy/docker-compose.yml up -d --build
+#   docker compose -f deploy/docker-compose.yml exec ollama ollama pull nomic-embed-text
+#   docker compose -f deploy/docker-compose.yml exec ollama ollama pull qwen2.5:7b-instruct
+# Not deployed anywhere; provided so the service can be stood up in one command.
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+    # Uncomment on a host with the NVIDIA container toolkit:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices: [{ driver: nvidia, count: 1, capabilities: [gpu] }]
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    depends_on: [ollama]
+    environment:
+      IPQA_LLM_BASE_URL: http://ollama:11434/v1
+      IPQA_LLM_MODEL: qwen2.5:7b-instruct
+      IPQA_EMBED_BASE_URL: http://ollama:11434
+      IPQA_EMBED_MODEL: nomic-embed-text
+      IPQA_CHUNKING: clause
+      IPQA_RETRIEVER: bm25
+      IPQA_RERANK: "1"
+      IPQA_TOP_K: "5"
+      IPQA_PROMPT: v2
+      IPQA_RATE_LIMIT_PER_MIN: "20"
+    ports:
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
+
+volumes:
+  ollama:

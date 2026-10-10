@@ -1,0 +1,32 @@
+{
+  "sfip_dwelling_f122_2021.pdf": {
+    "doc_id": "DF",
+    "url": "https://www.fema.gov/sites/default/files/documents/fema_F-122-Dwelling-SFIP_2021.pdf",
+    "sha256": "4e91d6417cba13c18d4402083a0c02811da8264be6fcb8557c6afa4f8b6e2e74",
+    "bytes": 393573
+  },
+  "sfip_general_property_f123_2021.pdf": {
+    "doc_id": "GP",
+    "url": "https://www.fema.gov/sites/default/files/documents/fema_F-123-general-property-SFIP_2021.pdf",
+    "sha256": "48139cb9b22b34efcb00b9df3b9a909929a0494e5f58f10ad105308e43d0feab",
+    "bytes": 363153
+  },
+  "sfip_rcbap_f144_2021.pdf": {
+    "doc_id": "RC",
+    "url": "https://www.fema.gov/sites/default/files/documents/fema_F-144-RCBAP-SFIP_2021.pdf",
+    "sha256": "bb99d143a9b137c585ea7f21fc3092fceefc98c94c21d3d8ac0901ea92a28e90",
+    "bytes": 382732
+  },
+  "nfip_summary_of_coverage_2023.pdf": {
+    "doc_id": "SC",
+    "url": "https://agents.floodsmart.gov/sites/default/files/media/document/2025-07/fema-nfip-summary-coverage-brochure-12-2023.pdf",
+    "sha256": "32590b3b46b7f8fa8aae89c81656b4ac4c5537db141a8b9b08f80aca1052f51d",
+    "bytes": 6655877
+  },
+  "nfip_claims_handbook_2024.pdf": {
+    "doc_id": "CH",
+    "url": "https://agents.floodsmart.gov/sites/default/files/media/document/2025-07/fema-nfip-claims-handbook-08-2024.pdf",
+    "sha256": "13ff0d9ce9e5f71cffb211ea889a8da4f346b355c0e5317ea24a77b4b7695859",
+    "bytes": 1993110
+  }
+}

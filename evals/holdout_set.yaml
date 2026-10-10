@@ -1,0 +1,179 @@
+# Held-out set (25 items), written AFTER prompt v2 was designed from failures on gold_set.yaml and
+# BEFORE any system output on these questions was seen. Used only to check that the v1 -> v2 prompt
+# change generalises. Same schema and criteria as gold_set.yaml (see GOLD_SET.md). None of these
+# questions duplicates a gold_set question.
+- id: h001
+  category: condition
+  question: Can the insurer require me to give a statement under oath about my flood claim?
+  answerable: true
+  reference: Yes. At reasonable times and places the insurer designates, you must submit to examination under oath, while not in the presence of another insured, and sign it.
+  key_facts: ['\byes\b|must', 'oath']
+  supporting: [[DF:VII.H.1, GP:VII.H.1, RC:VIII.H.1]]
+- id: h002
+  category: condition
+  question: The moving company had my furniture in storage when it flooded. Can the moving company claim under my flood policy?
+  answerable: true
+  reference: No. Under the No Benefit to Bailee condition, no person or organization other than you having custody of insured property will benefit from the insurance.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:VII.I, GP:VII.I, RC:VIII.I]]
+- id: h003
+  category: condition
+  question: If the insurer lets me keep damaged property after a loss, what happens to my claim payment?
+  answerable: true
+  reference: The insurer reduces the loss proceeds payable to you by the value of the salvage.
+  key_facts: ['salvage|reduce']
+  supporting: [[DF:VII.L, GP:VII.L, RC:VIII.L]]
+- id: h004
+  category: condition
+  question: My neighbor's construction crew caused the flooding that damaged my house. After the insurer pays me, can I still sue the neighbor and keep the money?
+  answerable: true
+  reference: The insurer is subrogated to your right to recover for the loss it paid; you may not give up its right to recover, and if you recover money from the person who caused the loss you must pay the insurer back first.
+  key_facts: ['subrogat|pay (us|the insurer) back|transferred']
+  supporting: [[DF:VII.P, GP:VII.P, RC:VIII.P]]
+- id: h005
+  category: condition
+  question: What happens to my flood policy if I sell the insured building?
+  answerable: true
+  reference: You no longer have an insurable interest in the building, so the insurer will cancel the policy; you may be entitled to a partial premium refund.
+  key_facts: ['cancel']
+  supporting: [[DF:VIII.D.2, GP:VIII.D, RC:IX.D.2]]
+- id: h006
+  category: exclusion
+  question: Is my boat covered under the Dwelling Form if it is damaged in a flood?
+  answerable: true
+  reference: No. Aircraft or watercraft, or their furnishings and equipment, are not insured.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.13]]
+- id: h007
+  category: exclusion
+  question: Does the Dwelling Form cover my concrete driveway and the wooden deck outside the house?
+  answerable: true
+  reference: No. Portions of walks, walkways, decks, driveways, patios and other surfaces outside the perimeter exterior walls of the insured building are not insured.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[DF:IV.9]]
+- id: h008
+  category: exclusion
+  question: I lowered my yard's grading in a way that made flooding much more likely. Could that affect coverage?
+  answerable: true
+  reference: Yes. Loss caused directly or indirectly by alteration of the insured property that significantly increases the risk of flooding is excluded.
+  key_facts: ['alteration|increases the risk|exclude']
+  supporting: [[DF:V.D.10]]
+- id: h009
+  category: coverage
+  question: Are lumber and drywall I bought for a renovation covered if they are flooded before installation?
+  answerable: true
+  reference: Yes, materials and supplies for construction, alteration, or repair of the dwelling are covered while stored in a fully enclosed building at the described location or on an adjacent property.
+  key_facts: ['fully enclosed']
+  supporting: [[DF:III.A.4]]
+- id: h010
+  category: coverage
+  question: Work on my unfinished house stopped. How long does building coverage continue for a structure that is not yet walled and roofed?
+  answerable: true
+  reference: Coverage applies only while work is in progress, or for up to 90 continuous days after the work is halted (and not at all in certain zones if the lowest floor is below base flood elevation).
+  key_facts: ['90']
+  supporting: [[DF:III.A.5]]
+- id: h011
+  category: definition
+  question: What is the "base flood" in the SFIP?
+  answerable: true
+  reference: A flood having a one percent chance of being equaled or exceeded in any given year.
+  key_facts: ['one percent|1 ?%|1 percent']
+  supporting: [[DF:II.C.4, GP:II.C.4, RC:II.C.4]]
+- id: h012
+  category: loss_settlement
+  question: One chair from a matched dining set was ruined in a flood. How does the insurer pay for it?
+  answerable: true
+  reference: Under the Pair and Set Clause the insurer may pay either the cost of replacing the damaged article minus depreciation, or the fair proportion of the total value of the set that the article represents.
+  key_facts: ['depreciation|proportion']
+  supporting: [[DF:VII.A, GP:VII.A, RC:VIII.A]]
+- id: h013
+  category: condition
+  question: The insurer rejected part of my proof of loss. Can I file an amended one, and by when?
+  answerable: true
+  reference: Yes. You may file an amended proof of loss as long as it is filed within 60 days of the date of the loss (or accept the denial, or exercise your other rights under the policy).
+  key_facts: ['60 days']
+  supporting: [[DF:VII.J.2, GP:VII.J, RC:VIII.J.2]]
+- id: h014
+  category: condition
+  question: My lender has started foreclosure on my house. Can the lender still receive the flood claim payment?
+  answerable: true
+  reference: Yes. The mortgagee has the right to receive loss payment even if it has started foreclosure or similar action on the building.
+  key_facts: ['\byes\b|right to receive']
+  supporting: [[DF:VII.N.5, RC:VIII.N.5, GP:VII.N]]
+- id: h015
+  category: condition
+  question: If my policy turns out to be void because my community was not participating in the NFIP, do I get my premium back?
+  answerable: true
+  reference: Yes, you are entitled to a full refund of all premium, fees, and surcharges, though any claim paid on the void policy must be returned or offset first.
+  key_facts: ['full refund|refund']
+  supporting: [[DF:VIII.B.2, DF:VIII.B, GP:VIII.B, RC:IX.B.2]]
+- id: h016
+  category: claims_process
+  question: Someone claiming to be from FEMA asked for my Social Security number and bank account to process my flood claim. Is that normal?
+  answerable: true
+  reference: No. Reputable sources will never ask for payment, your Social Security Number, or your bank account information; be wary of pressure tactics.
+  key_facts: ['\b(no|not|never)\b']
+  supporting: [[CH:knowing-who-to-trust]]
+- id: h017
+  category: claims_process
+  question: After returning home following a flood, how long should I boil water before drinking it?
+  answerable: true
+  reference: Boil water for five minutes before drinking it or using it to prepare food until you know the water supply is safe.
+  key_facts: ['(five|5) minutes']
+  supporting: [[CH:returning-home]]
+- id: h018
+  category: claims_process
+  question: If FEMA asks me for more information during my appeal, how long do I have to respond?
+  answerable: true
+  reference: At least 14 calendar days; failing to provide the information in full within 14 days may result in dismissal of the appeal.
+  key_facts: ['14']
+  supporting: [[CH:submitting-your-appeal, CH:authorizing-representatives]]
+- id: h019
+  category: coverage
+  question: Under the General Property Form, does a tenant's personal property have to be inside the building to be covered?
+  answerable: true
+  reference: Yes. If you are a tenant, personal property must be inside the fully enclosed building.
+  key_facts: ['fully enclosed|inside']
+  supporting: [[GP:III.B.10]]
+- id: h020
+  category: exclusion
+  question: Does the RCBAP cover personal property used for a small commercial business run in the condo building?
+  answerable: true
+  reference: No. Personal property used in connection with any incidental commercial occupancy or use of the building is not insured under the RCBAP.
+  key_facts: ['\b(no|not)\b']
+  supporting: [[RC:IV.16]]
+- id: h021
+  category: unanswerable
+  question: What is the dollar amount of the Federal Policy Fee on a Dwelling Form policy?
+  answerable: false
+  reference: Not covered in the documents. The policy defines the Federal Policy Fee but does not state its amount.
+  key_facts: []
+  supporting: []
+- id: h022
+  category: unanswerable
+  question: How much is the HFIAA surcharge on a primary residence?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: h023
+  category: unanswerable
+  question: How many years is an Elevation Certificate valid for rating purposes?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: h024
+  category: unanswerable
+  question: What was the average NFIP claim payment last year?
+  answerable: false
+  reference: Not covered in the documents.
+  key_facts: []
+  supporting: []
+- id: h025
+  category: unanswerable
+  question: Is flood insurance required by law for every homeowner in a high-risk zone, even without a mortgage?
+  answerable: false
+  reference: Not covered in the documents. The corpus does not state mandatory-purchase rules.
+  key_facts: []
+  supporting: []

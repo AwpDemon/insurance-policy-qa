@@ -1,0 +1,13 @@
+config,chunking,retriever,rerank,n_chunks,n_questions,recall@1,recall@3,recall@5,recall@10,complete@5,mrr@10,p50_ms,p95_ms
+clause/bm25,clause,bm25,False,462,105,0.5095,0.7143,0.8,0.8571,0.8,0.6319,0.6,0.9
+clause/bm25+rerank,clause,bm25,True,462,105,0.6857,0.8524,0.8905,0.9095,0.8857,0.7833,2730.0,4114.3
+clause/dense,clause,dense,False,462,105,0.3571,0.5905,0.6381,0.7286,0.6381,0.4886,40.6,73.4
+clause/dense+rerank,clause,dense,True,462,105,0.5857,0.719,0.7286,0.7476,0.7238,0.6569,2016.3,3884.7
+clause/hybrid,clause,hybrid,False,462,105,0.5,0.681,0.7667,0.8238,0.7619,0.6124,62.7,86.9
+clause/hybrid+rerank,clause,hybrid,True,462,105,0.6714,0.8619,0.8905,0.9286,0.8857,0.7722,649.9,1727.7
+section/bm25,section,bm25,False,291,105,0.519,0.6762,0.7238,0.8381,0.7238,0.6179,0.7,2.2
+section/dense,section,dense,False,291,105,0.2619,0.4429,0.5238,0.6381,0.5238,0.3769,56.5,86.3
+section/hybrid,section,hybrid,False,291,105,0.4619,0.6476,0.7333,0.8381,0.7333,0.5778,55.2,90.3
+fixed/bm25,fixed,bm25,False,269,105,0.4,0.6333,0.6714,0.7762,0.6667,0.5323,1.1,3.9
+fixed/dense,fixed,dense,False,269,105,0.3476,0.5286,0.5952,0.7143,0.5905,0.4724,54.6,75.8
+fixed/hybrid,fixed,hybrid,False,269,105,0.4524,0.6333,0.7333,0.8095,0.7333,0.5689,56.7,77.5
